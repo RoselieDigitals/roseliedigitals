@@ -1,0 +1,144 @@
+/* Reset styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* Full-screen layout */
+body, html, #app {
+  height: 100%;
+  width: 100%;
+  color: white;
+}
+
+/* Sidebar styling */
+#sidebar {
+  width: 12.5%;
+  min-width: 50px;
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 10px;
+  float: left;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+#sidebar button {
+  display: block;
+  width: 100%;
+  margin: 5px 0;
+  padding: 10px;
+  background-color: rgba(50, 50, 50, 0.8);
+  border: none;
+  color: white;
+  cursor: pointer;
+  text-align: left;
+}
+
+#sidebar button:hover {
+  background-color: rgba(100, 100, 100, 0.8);
+}
+
+/* Main content area */
+#mainContent {
+  margin-left: 12.5%;
+  padding: 20px;
+  overflow-y: auto;
+  height: 100vh;
+}
+
+/* Feedback post box */
+#feedbackList > div {
+  border: 2px solid white;
+  padding: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 3em;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  position: relative;
+}
+
+/* Small buttons on feedback */
+#feedbackList button {
+  font-size: 0.3em;
+  padding: 3px 8px;
+  margin: 3px;
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.15);
+  border: none;
+  color: white;
+  border-radius: 4px;
+}
+
+#feedbackList button:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Comments under feedback */
+#feedbackList ul {
+  list-style: none;
+  margin-top: 20px;
+  padding-left: 20px;
+  font-size: 0.5em;
+  text-align: left;
+}
+
+/* Individual comment style */
+#feedbackList ul li {
+  margin-bottom: 10px;
+}
+
+/* Edit/delete buttons on comments */
+#feedbackList ul li button {
+  font-size: 0.7em;
+  margin-left: 5px;
+}
+
+/* Input and textarea styles */
+input, textarea {
+  padding: 10px;
+  margin: 10px 0;
+  width: 80%;
+  max-width: 500px;
+  border: none;
+  border-radius: 5px;
+}
+
+/* Buttons */
+button {
+  padding: 10px 20px;
+  margin: 5px;
+  background-color: rgba(0, 0, 0, 0.6);
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Table styling */
+table {
+  width: 100%;
+  color: white;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+table, th, td {
+  border: 1px solid white;
+  padding: 10px;
+  text-align: center;
+}
+
+/* Collapsible comment toggle buttons */
+.comment-toggle-btn {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 0.4em;
+  background-color: rgba(0, 255, 255, 0.2);
+}
