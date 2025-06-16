@@ -1,5 +1,6 @@
 const app = document.getElementById('app'); 
-let users = [];
+// Always load users from localStorage if available
+let users = JSON.parse(localStorage.getItem('lms_users')) || [];
 let currentUser = null;
 let lessons = JSON.parse(localStorage.getItem('lessons')) || [];
 let feedbacks = [];
@@ -47,6 +48,8 @@ function signupUser() {
   const country = document.getElementById('signupCountry').value;
   const role = email === 'admin@lms.com' ? 'creator' : 'student';
   users.push({ name, email, pass, role, country, progress: 0, completedLessons: [] });
+  // Save users to localStorage after signup
+  localStorage.setItem('lms_users', JSON.stringify(users));
   showLogin();
 }
 
@@ -64,6 +67,8 @@ function showLogin() {
 }
 
 function loginUser() {
+  // Always reload users from localStorage before logging in
+  users = JSON.parse(localStorage.getItem('lms_users')) || [];
   const email = document.getElementById('loginEmail').value;
   const pass = document.getElementById('loginPass').value;
   const found = users.find(u => u.email === email && u.pass === pass);
@@ -211,7 +216,6 @@ function showHome() {
     });
   }
 }
-
 
         else if (tab === 'Feedback') {
           mainContent.innerHTML = `
