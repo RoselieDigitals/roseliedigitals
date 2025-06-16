@@ -1,5 +1,4 @@
 const app = document.getElementById('app'); 
-// Always load users from localStorage if available
 let users = JSON.parse(localStorage.getItem('lms_users')) || [];
 let currentUser = null;
 let lessons = JSON.parse(localStorage.getItem('lessons')) || [];
@@ -125,25 +124,25 @@ window.resetPassword = function() {
 function showAdminTools() {
   setBackground(() => {
     app.innerHTML = `
-      <div class="flex-container" style="margin:0;align-items:flex-start;">
-        <div style="flex:1; min-width:250px; max-width:500px;">
+      <div style="margin:30px; display: flex; flex-direction: row; align-items: flex-start;">
+        <div style="flex:1; min-width:350px; max-width:500px;">
           <h2>Admin Tools</h2>
           <div style="margin-bottom:25px;">
             <h3>Change Startup/Cover Image</h3>
-            <input id="startupCoverInput" type="url" placeholder="Enter startup/cover image URL" style="width:100%;padding:6px;">
+            <input id="startupCoverInput" type="url" placeholder="Enter startup/cover image URL" style="width:90%;padding:6px;">
             <button onclick="changeStartupCover()">Save</button>
           </div>
           <div style="margin-bottom:25px;">
             <h3>Change Background Image</h3>
-            <input id="backgroundInput" type="url" placeholder="Enter background image URL" style="width:100%;padding:6px;">
+            <input id="backgroundInput" type="url" placeholder="Enter background image URL" style="width:90%;padding:6px;">
             <button onclick="changeBackgroundImage()">Save</button>
           </div>
         </div>
-        <div style="flex:1; min-width:250px; max-width:700px; margin-left:2vw;">
+        <div style="flex:1; min-width:350px; max-width:600px; margin-left:40px;">
           <h3>Sales Analytics</h3>
           <div style="display:flex; flex-direction:row; align-items: flex-start;">
-            <div style="flex-shrink:0;">
-              <canvas id="pieSalesChart" style="max-width:260px;"></canvas>
+            <div>
+              <canvas id="pieSalesChart" width="260" height="260"></canvas>
               <div style="margin:16px 0 0 0; text-align:center;">
                 <button onclick="showSalesLine('daily')" style="margin:0 5px;">Daily</button>
                 <button onclick="showSalesLine('weekly')" style="margin:0 5px;">Weekly</button>
@@ -151,8 +150,8 @@ function showAdminTools() {
                 <button onclick="showSalesLine('yearly')" style="margin:0 5px;">Yearly</button>
               </div>
             </div>
-            <div style="margin-left:3vw;width:100%;">
-              <canvas id="lineSalesChart" style="width:100%;"></canvas>
+            <div style="margin-left:40px;">
+              <canvas id="lineSalesChart" width="350" height="260"></canvas>
             </div>
           </div>
         </div>
@@ -164,14 +163,15 @@ function showAdminTools() {
   });
 }
 
+// --- INSTANT COVER AND BG UPDATES ---
 window.changeStartupCover = function() {
   const url = document.getElementById('startupCoverInput').value;
   if (!url) { showNotification("Please enter a valid URL!", "error"); return; }
   localStorage.setItem('lms_startup_cover', url);
   showNotification("Startup/Cover image changed!");
-  // Optionally, instantly show the new cover page:
-  // showStartPage();
+  showStartPage(); // Instantly show the new cover
 };
+
 window.changeBackgroundImage = function() {
   const url = document.getElementById('backgroundInput').value;
   if (!url) { showNotification("Please enter a valid URL!", "error"); return; }
@@ -201,7 +201,7 @@ function renderSalesPieChart() {
       }]
     },
     options: {
-      responsive: true,
+      responsive: false,
       plugins: {
         legend: { display: true, position: 'bottom' }
       }
@@ -252,7 +252,7 @@ window.showSalesLine = function(period) {
       }]
     },
     options: {
-      responsive: true,
+      responsive: false,
       plugins: {
         legend: { display: false }
       },
@@ -333,24 +333,26 @@ window.deleteStudent = function(email) {
 };
 
 // --- Existing functions ---
+
 function setBackground(callback) {
-  // Use your new default background image!
+  // Use custom background if set
   const customBg = localStorage.getItem('lms_bg_img');
   if (customBg) {
     app.style.backgroundImage = `url('${customBg}')`;
   } else {
-    app.style.backgroundImage = "url('https://i.postimg.cc/hvwrFrt8/w-HERE-YOU-PREPARE-YOURSELF-WITH-THE-WORLD-OF-FINANCIAL-FREEDOM-18.png')";
+    app.style.backgroundImage = "url('https://i.postimg.cc/bN802tp2/w-HERE-YOU-PREPARE-YOURSELF-WITH-THE-WORLD-OF-FINANCIAL-FREEDOM-16.png')";
   }
   app.style.backgroundSize = 'cover';
   app.style.backgroundPosition = 'center';
   app.style.backgroundRepeat = 'no-repeat';
-  app.style.minHeight = '100vh';
+  app.style.height = '100vh';
   app.style.width = '100vw';
   app.innerHTML = '';
   callback();
 }
 
 function showStartPage() {
+  // Use custom cover if set
   const startupCover = localStorage.getItem('lms_startup_cover') || 'https://i.postimg.cc/6pxQQrXD/w-HERE-YOU-PREPARE-YOURSELF-WITH-THE-WORLD-OF-FINANCIAL-FREEDOM-17.png';
   app.innerHTML = `
     <div style="height: 100vh; width: 100vw; background: url('${startupCover}') center/cover no-repeat; display: flex; justify-content: center; align-items: center;">
@@ -383,7 +385,6 @@ function signupUser() {
   const country = document.getElementById('signupCountry').value;
   const role = email === 'admin@lms.com' ? 'creator' : 'student';
   users.push({ name, email, pass, role, country, progress: 0, completedLessons: [] });
-  // Save users to localStorage after signup
   localStorage.setItem('lms_users', JSON.stringify(users));
   showLogin();
 }
@@ -402,7 +403,6 @@ function showLogin() {
 }
 
 function loginUser() {
-  // Always reload users from localStorage before logging in
   users = JSON.parse(localStorage.getItem('lms_users')) || [];
   const email = document.getElementById('loginEmail').value;
   const pass = document.getElementById('loginPass').value;
@@ -419,7 +419,7 @@ function showHome() {
   app.innerHTML = '';
   setBackground(() => {
     const container = document.createElement('div');
-    container.className = 'flex-container';
+    container.style.display = 'flex';
     container.style.height = '100vh';
     container.style.width = '100vw';
 
@@ -428,6 +428,11 @@ function showHome() {
 
     const mainContent = document.createElement('div');
     mainContent.id = 'mainContent';
+    mainContent.style.flexGrow = '1';
+    mainContent.style.overflowY = 'auto';
+    mainContent.style.padding = '20px';
+    mainContent.style.height = '100vh';
+    mainContent.style.boxSizing = 'border-box';
 
     const tabs = ['Dashboard', 'My Lessons', 'Feedback', 'Profile', 'Logout'];
     if (currentUser && currentUser.role === 'creator') {
@@ -441,7 +446,6 @@ function showHome() {
     tabs.forEach(tab => {
       const btn = document.createElement('button');
       btn.innerText = tab;
-      btn.style.width = '100%';
       btn.onclick = () => {
         if (lastClickedTab === tab) {
           mainContent.innerHTML = '';
@@ -493,7 +497,7 @@ function showHome() {
             </table>
             <br>
             <h3>Student Progress Analytics</h3>
-            <canvas id="progressChart"></canvas>
+            <canvas id="progressChart" width="400" height="200"></canvas>
           `;
           drawCharts();
         } else if (tab === 'Create a New Lesson') {
